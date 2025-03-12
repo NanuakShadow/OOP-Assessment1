@@ -16,12 +16,13 @@ namespace DungeonExplorer
         public Player(string name) 
         {
             this.name = name;
+            //The player's health is randomly generated between 14 and 18 for some possible variation in gameplay
             this.health = random.Next(14, 18);
         }
 
         public string GetPlayerData()
         {
-
+            //Only displays name and health for now. Inventory is viewed from a separate method
             return "Name: " + this.name + "\n" + "Health: " + this.health;
         }
         public string GetInventory()
@@ -40,6 +41,7 @@ namespace DungeonExplorer
             }
             return inventoryContents;
         }
+        //Updates the room being accesessed by the game when the player moves to a new room
         public void SetCurrentRoom(Room roomName)
         {
             this.currentRoom = roomName;
@@ -52,6 +54,7 @@ namespace DungeonExplorer
         {
             bool emptied = false;
             Console.WriteLine("Would you like to pick up this item? (yes/no)");
+            //If the player adds the item to their inventory, the item is removed from the room
             if (Console.ReadLine() == "yes")
             {
                 this.inventory.Add(item);

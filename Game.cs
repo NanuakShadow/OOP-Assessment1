@@ -14,17 +14,22 @@ namespace DungeonExplorer
         private static Room roomTest;
         public Game()
         {
-            // Initialize the game with the first room and player
+
             playerTest = new Player("Test Player");
+
+            // Initialize the game with the first room and player
             Console.WriteLine("Please try and be reasonable with your name choice, It's not that hard");
             Console.WriteLine("I will, however, not stop you. Just know that any problems are on you, not me");
             Console.WriteLine("Enter player name: ");
             player1 = new Player(Console.ReadLine());
             room1 = new Room("Start", "This is the first room. " +
                 "It is empty, except for a wooden chest in a corner. There is a locked door to the north.");
+
+            // Test room initialized for admin testing
             roomTest = new Room("Test Room", "A test room. Normally inaccessible to the player.");
 
         }
+
         public void Start()
         {
             player1.SetCurrentRoom(room1);
@@ -40,8 +45,10 @@ namespace DungeonExplorer
                 Console.WriteLine("3. View character");
                 Console.WriteLine("4. Open Inventory");
                 Console.WriteLine("5. Quit game");
-                string choice = Console.ReadLine();
-                bool choiceValid = int.TryParse(choice, out int choiceInt);
+                string choiceStr = Console.ReadLine();
+
+                //Converts non integer values to -1 so that they will be handled by the default case
+                bool choiceValid = int.TryParse(choiceStr, out int choiceInt);
                 if (!choiceValid)
                 {
                     
@@ -51,6 +58,8 @@ namespace DungeonExplorer
                 {
                     case 1:
                         Console.WriteLine(player1.InspectRoom());
+                        // Check if the room contains a chest and provides the option to open it
+                        //(may not be entirely necessary with current data but is open to change in the second half of development)
                         if (player1.currentRoom.roomDescription.Contains("chest"))
                         {
                             Console.WriteLine("Do you want to open the chest? (yes/no)");
@@ -65,6 +74,7 @@ namespace DungeonExplorer
                                 if (openChest == "yes")
                                 {
                                     Console.WriteLine("The chest contains a smooth metal cube of unknown origins");
+                                    //Gives the player the option to pick up the item and ensures that the chest is empty if they do
                                     if (player1.PickUpItem("metal cube"))
                                     {
                                         player1.currentRoom.roomDescription += "The chest is now empty.";
