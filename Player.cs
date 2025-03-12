@@ -24,6 +24,22 @@ namespace DungeonExplorer
 
             return "Name: " + this.name + "\n" + "Health: " + this.health;
         }
+        public string GetInventory()
+        {
+            string inventoryContents = "Inventory: " + "\n";
+            if (this.inventory.Count == 0)
+            {
+                return "Inventory is empty.";
+            }
+            else
+            {
+                foreach (string item in this.inventory)
+                {
+                    inventoryContents += "-" + item + "\n";
+                }
+            }
+            return inventoryContents;
+        }
         public void SetCurrentRoom(Room roomName)
         {
             this.currentRoom = roomName;
@@ -31,6 +47,19 @@ namespace DungeonExplorer
         public string InspectRoom()
         {
             return this.currentRoom.GetDescription();
+        }
+        public void PickUpItem(string item)
+        {
+            Console.WriteLine("Would you like to pick up this item? (yes/no)");
+            if (Console.ReadLine() == "yes")
+            {
+                this.inventory.Add(item);
+                Console.WriteLine("You have picked up the item.");
+            }
+            else
+            {
+                Console.WriteLine("You left the item behind.");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Media;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Services;
@@ -37,7 +38,8 @@ namespace DungeonExplorer
                 Console.WriteLine("1. Inspect room");
                 Console.WriteLine("2. Move rooms");
                 Console.WriteLine("3. View character");
-                Console.WriteLine("4. Quit game");
+                Console.WriteLine("4. Open Inventory");
+                Console.WriteLine("5. Quit game");
                 string choice = Console.ReadLine();
                 bool choiceValid = int.TryParse(choice, out int choiceInt);
                 if (!choiceValid)
@@ -45,11 +47,19 @@ namespace DungeonExplorer
                     
                     choiceInt = -1;
                 }
-                Console.WriteLine("You chose: " + choiceInt);
-                switch(choiceInt)
+                switch (choiceInt)
                 {
                     case 1:
                         Console.WriteLine(player1.InspectRoom());
+                        if (player1.currentRoom.roomDescription.Contains("chest"))
+                        {
+                            Console.WriteLine("Do you want to open the chest? (yes/no)");
+                            if (Console.ReadLine() == "yes")
+                            {
+                                Console.WriteLine("The chest contains a smooth metal cube of unknown origins");
+                                player1.PickUpItem("metal cube");
+                            }
+                        }
                         break;
                     case 2:   
                             if (player1.name == "Admin")
@@ -66,6 +76,9 @@ namespace DungeonExplorer
                         Console.WriteLine(player1.GetPlayerData());
                         break;
                     case 4:
+                        Console.WriteLine(player1.GetInventory());
+                        break;
+                    case 5:
                         playing = false;
                         break;
                     default:
