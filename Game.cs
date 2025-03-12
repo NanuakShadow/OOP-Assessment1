@@ -54,10 +54,22 @@ namespace DungeonExplorer
                         if (player1.currentRoom.roomDescription.Contains("chest"))
                         {
                             Console.WriteLine("Do you want to open the chest? (yes/no)");
-                            if (Console.ReadLine() == "yes")
+                            string openChest = Console.ReadLine();
+                            if (player1.currentRoom.roomDescription.Contains("The chest is now empty"))
                             {
-                                Console.WriteLine("The chest contains a smooth metal cube of unknown origins");
-                                player1.PickUpItem("metal cube");
+                                Console.WriteLine("You already emptied this chest. There is nothing else to see.");   
+                            }
+                            else
+                            {
+
+                                if (openChest == "yes")
+                                {
+                                    Console.WriteLine("The chest contains a smooth metal cube of unknown origins");
+                                    if (player1.PickUpItem("metal cube"))
+                                    {
+                                        player1.currentRoom.roomDescription += "The chest is now empty.";
+                                    } 
+                                }
                             }
                         }
                         break;

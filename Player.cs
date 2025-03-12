@@ -26,7 +26,7 @@ namespace DungeonExplorer
         }
         public string GetInventory()
         {
-            string inventoryContents = "Inventory: " + "\n";
+            string inventoryContents = "Inventory: ";
             if (this.inventory.Count == 0)
             {
                 return "Inventory is empty.";
@@ -35,7 +35,7 @@ namespace DungeonExplorer
             {
                 foreach (string item in this.inventory)
                 {
-                    inventoryContents += "-" + item + "\n";
+                    inventoryContents += "\n" + "-" + item;
                 }
             }
             return inventoryContents;
@@ -48,18 +48,22 @@ namespace DungeonExplorer
         {
             return this.currentRoom.GetDescription();
         }
-        public void PickUpItem(string item)
+        public bool PickUpItem(string item)
         {
+            bool emptied = false;
             Console.WriteLine("Would you like to pick up this item? (yes/no)");
             if (Console.ReadLine() == "yes")
             {
                 this.inventory.Add(item);
                 Console.WriteLine("You have picked up the item.");
+                emptied = true;
             }
             else
             {
                 Console.WriteLine("You left the item behind.");
+
             }
+            return emptied;
         }
     }
 }
