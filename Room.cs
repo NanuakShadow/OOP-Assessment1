@@ -2,8 +2,8 @@
 {
     public class Room
     {
-        private string roomDescription;
-        private string roomName;
+        public string roomDescription;
+        public string roomName;
 
         public Room(string name, string description)
         {
