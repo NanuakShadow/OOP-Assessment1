@@ -38,21 +38,26 @@ namespace DungeonExplorer
             }
         }
 
-        public static void MoveRoom(Player player1, Room roomTest)
+        public static void MoveRoom(Player player1)
         {
-            if (player1.name == "Admin")
+            if (player1.name == "Admin" && player1.currentRoom.roomName == "Start")
             {
                 Console.WriteLine("You have access to test room. Please enter pin to enter the room: ");
                 string adminPin = Console.ReadLine();
                 if (adminPin == "1234")
                 {
-                    player1.SetCurrentRoom(roomTest);
+                    player1.SetCurrentRoom(Game.roomTest);
                     Console.WriteLine("You have been moved to the test room");
                 }
                 else
                 {
                     Console.WriteLine("Incorrect pin. You can not enter this room");
                 }
+            }
+            else if (player1.name == "Admin" && player1.currentRoom.roomName == "Test Room")
+            {
+                player1.SetCurrentRoom(Game.room1);
+                Console.WriteLine("You have exited the test room and returned to your previous room");
             }
             else
             {

@@ -10,8 +10,8 @@ namespace DungeonExplorer
     {
         private Player playerTest;
         private Player player1;
-        private static Room room1;
-        private static Room roomTest;
+        public static Room room1;
+        public static Room roomTest;
         public Game()
         {
 
@@ -60,7 +60,7 @@ namespace DungeonExplorer
                         Program.InspectRoom(player1);
                         break;
                     case 2:   
-                        Program.MoveRoom(player1, roomTest);
+                        Program.MoveRoom(player1);
                         break;
                     case 3:
                         Console.WriteLine(player1.GetPlayerData());
