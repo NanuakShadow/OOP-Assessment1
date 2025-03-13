@@ -23,11 +23,11 @@ namespace DungeonExplorer
         public string GetPlayerData()
         {
             //Only displays name and health for now. Inventory is viewed from a separate method
-            return "Name: " + this.name + "\n" + "Health: " + this.health;
+            return $"Name: {this.name}\nHealth: {this.health}";
         }
         public string GetInventory()
         {
-            string inventoryContents = "Inventory: ";
+            string inventoryContents = "Inventory:";
             if (this.inventory.Count == 0)
             {
                 return "Inventory is empty.";
@@ -36,7 +36,7 @@ namespace DungeonExplorer
             {
                 foreach (string item in this.inventory)
                 {
-                    inventoryContents += "\n" + "-" + item;
+                    inventoryContents += $"\n - {item}";
                 }
             }
             return inventoryContents;
@@ -53,7 +53,7 @@ namespace DungeonExplorer
         public bool PickUpItem(string item)
         {
             bool emptied = false;
-            Console.WriteLine("Would you like to pick up this item? (yes/no)");
+            Console.WriteLine("Would you like to pick up this item?");
             //If the player adds the item to their inventory, the item is removed from the room
             if (Console.ReadLine() == "yes")
             {
