@@ -57,43 +57,10 @@ namespace DungeonExplorer
                 switch (choiceInt)
                 {
                     case 1:
-                        Console.WriteLine(player1.InspectRoom());
-                        // Check if the room contains a chest and provides the option to open it
-                        //(may not be entirely necessary with current data but is open to change in the second half of development)
-                        if (player1.currentRoom.roomDescription.Contains("chest"))
-                        {
-                            Console.WriteLine("Do you want to open the chest?");
-                            Console.WriteLine("Anything other than 'yes' will be deemed as a negative response");
-                            string openChest = Console.ReadLine();
-                            if (player1.currentRoom.roomDescription.Contains("The chest is now empty"))
-                            {
-                                Console.WriteLine("You already emptied this chest. There is nothing else to see.");   
-                            }
-                            else
-                            {
-
-                                if (openChest == "yes")
-                                {
-                                    Console.WriteLine("The chest contains a smooth metal cube of unknown origins");
-                                    //Gives the player the option to pick up the item and ensures that the chest is empty if they do
-                                    if (player1.PickUpItem("metal cube"))
-                                    {
-                                        player1.currentRoom.roomDescription += "The chest is now empty.";
-                                    } 
-                                }
-                            }
-                        }
+                        Program.InspectRoom(player1);
                         break;
                     case 2:   
-                            if (player1.name == "Admin")
-                            {
-                                player1.SetCurrentRoom(roomTest);
-                                Console.WriteLine("You have been moved to the test room");
-                            }
-                            else
-                            {
-                                Console.WriteLine("You do not any available rooms to move to");
-                            }
+                        Program.MoveRoom(player1, roomTest);
                         break;
                     case 3:
                         Console.WriteLine(player1.GetPlayerData());
