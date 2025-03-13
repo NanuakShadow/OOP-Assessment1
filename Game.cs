@@ -62,7 +62,8 @@ namespace DungeonExplorer
                         //(may not be entirely necessary with current data but is open to change in the second half of development)
                         if (player1.currentRoom.roomDescription.Contains("chest"))
                         {
-                            Console.WriteLine("Do you want to open the chest? (yes/no)");
+                            Console.WriteLine("Do you want to open the chest?");
+                            Console.WriteLine("Anything other than 'yes' will be deemed as a negative response");
                             string openChest = Console.ReadLine();
                             if (player1.currentRoom.roomDescription.Contains("The chest is now empty"))
                             {

@@ -53,7 +53,7 @@ namespace DungeonExplorer
         public bool PickUpItem(string item)
         {
             bool emptied = false;
-            Console.WriteLine("Would you like to pick up this item? (yes/no)");
+            Console.WriteLine("Would you like to pick up this item?");
             //If the player adds the item to their inventory, the item is removed from the room
             if (Console.ReadLine() == "yes")
             {
