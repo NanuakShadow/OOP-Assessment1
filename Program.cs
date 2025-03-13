@@ -42,8 +42,17 @@ namespace DungeonExplorer
         {
             if (player1.name == "Admin")
             {
-                player1.SetCurrentRoom(roomTest);
-                Console.WriteLine("You have been moved to the test room");
+                Console.WriteLine("You have access to test room. Please enter pin to enter the room: ");
+                string adminPin = Console.ReadLine();
+                if (adminPin == "1234")
+                {
+                    player1.SetCurrentRoom(roomTest);
+                    Console.WriteLine("You have been moved to the test room");
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect pin. You can not enter this room");
+                }
             }
             else
             {
