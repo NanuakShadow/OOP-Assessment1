@@ -10,14 +10,19 @@ namespace DungeonExplorer
         private static Random random = new Random();
         public string name;
         public int health;
+        public int defense;
+        public int attackPower;
         private List<string> inventory = new List<string>();
         public Room currentRoom;
 
         public Player(string name) 
         {
             this.name = name;
-            //The player's health is randomly generated between 14 and 18 for some possible variation in gameplay
+            //The player's stats ar randomised for some possible variation in gameplay
             this.health = random.Next(14, 18);
+            this.defense = random.Next(12, 16);
+            this.attackPower = random.Next(1, 3);
+            
         }
 
         public string GetPlayerData()
