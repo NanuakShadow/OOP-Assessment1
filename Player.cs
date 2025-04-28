@@ -5,31 +5,19 @@ using DungeonExplorer;
 
 namespace DungeonExplorer
 {
-    public class Player
+    public class Player : Entity
     {
-        private static Random random = new Random();
-        public string name;
-        public int health;
-        public int defense;
-        public int attackPower;
+        private Random random = new Random();
         private List<string> inventory = new List<string>();
         public Room currentRoom;
 
         public Player(string name) 
         {
             this.name = name;
-            //The player's stats ar randomised for some possible variation in gameplay
-            this.health = random.Next(14, 18);
-            this.defense = random.Next(12, 16);
-            this.attackPower = random.Next(1, 3);
-            
+            this.health = random.Next(8, 10);
+
         }
 
-        public string GetPlayerData()
-        {
-            //Only displays name and health for now. Inventory is viewed from a separate method
-            return $"Name: {this.name}\nHealth: {this.health}";
-        }
         public string GetInventory()
         {
             string inventoryContents = "Inventory:";

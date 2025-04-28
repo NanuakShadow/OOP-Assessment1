@@ -120,7 +120,7 @@ namespace DungeonExplorer
                         Game.MoveRoom(player1);
                         break;
                     case 3:
-                        Console.WriteLine(player1.GetPlayerData());
+                        Console.WriteLine(player1.GetData());
                         break;
                     case 4:
                         Console.WriteLine(player1.GetInventory());
