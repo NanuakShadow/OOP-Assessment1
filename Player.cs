@@ -7,11 +7,10 @@ namespace DungeonExplorer
 {
     public class Player : Entity
     {
-        private Random random = new Random();
         private List<string> inventory = new List<string>();
         public Room currentRoom;
 
-        public Player(string name) 
+        public Player(string name)
         {
             this.name = name;
             this.health = random.Next(8, 10);
@@ -60,6 +59,42 @@ namespace DungeonExplorer
 
             }
             return emptied;
+        }
+        public void Battle(Entity defender)
+        {
+            bool attackHit = false;
+
+            if (random.Next(1, 20) > defender.defense)
+            {
+                attackHit = true;
+            }
+            else
+            {
+                attackHit = false;
+            }
+
+            if (attackHit)
+            {
+                Console.WriteLine($"{this.name} hit {defender.name}!");
+                defender.health -= this.attackPower;
+                Console.WriteLine($"{defender.name} took {this.attackPower} damage!");
+            }
+            else
+            {
+                Console.WriteLine($"{this.name}'s attack missed!");
+                return;
+            }
+
+
+            if (defender.health <= 0)
+            {
+                Console.WriteLine($"{defender.name}'s health has been depleted");
+                Console.WriteLine($"{defender.name} has been defeated!");
+            }
+            else
+            {
+                Console.WriteLine($"{defender.name}'s remaining health: {defender.health}");
+            }
         }
     }
 }

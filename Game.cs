@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Media;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Services;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DungeonExplorer
 {
@@ -10,6 +11,7 @@ namespace DungeonExplorer
     {
         private Player playerTest;
         private Player player1;
+        private Monster monster1;
         public static Room room1;
         public static Room roomTest;
         public Game()
@@ -90,18 +92,21 @@ namespace DungeonExplorer
         public void Start()
         {
             player1.SetCurrentRoom(room1);
+            monster1 = new Monster();
+            Console.WriteLine(monster1.GetData());
 
             bool playing = true;
             while (playing)
-            {   
+            {
                 
-                
+
                 Console.WriteLine("Player options (enter one of the following numbers to carry out the assigned action): ");
                 Console.WriteLine("1. Inspect room");
                 Console.WriteLine("2. Move rooms");
                 Console.WriteLine("3. View character");
                 Console.WriteLine("4. Open Inventory");
-                Console.WriteLine("5. Quit game");
+                Console.WriteLine("5. Battle monster");
+                Console.WriteLine("6. Quit game");
                 string choiceStr = Console.ReadLine();
 
                 //Converts non integer values to -1 so that they will be handled by the default case
@@ -126,12 +131,17 @@ namespace DungeonExplorer
                         Console.WriteLine(player1.GetInventory());
                         break;
                     case 5:
+                        player1.Battle(monster1);
+                        monster1.Battle(player1);
+                        break;
+                    case 6:
                         playing = false;
                         break;
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
                 }
+                
             }
         }
     }

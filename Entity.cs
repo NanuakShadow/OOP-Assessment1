@@ -8,8 +8,8 @@ namespace DungeonExplorer
 {
     public class Entity
     {
-        private static Random random = new Random();
-        public string name;
+        public static Random random = new Random();
+        public string name = "Default name";
         public int health;
         public int defense;
         public int attackPower;
