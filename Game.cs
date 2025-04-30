@@ -50,9 +50,9 @@ namespace DungeonExplorer
 
                     if (openChest == "yes")
                     {
-                        Console.WriteLine("The chest contains a smooth metal cube of unknown origins");
+                        Console.WriteLine("The chest contains a small metal key");
                         //Gives the player the option to pick up the item and ensures that the chest is empty if they do
-                        if (player1.PickUpItem("metal cube"))
+                        if (player1.PickUpItem("metal key"))
                         {
                             player1.currentRoom.roomDescription += "The chest is now empty.";
                         }
@@ -63,33 +63,59 @@ namespace DungeonExplorer
 
         public static void MoveRoom(Player player1)
         {
-            if (player1.name == "Admin" && player1.currentRoom.roomName == "Start")
+            if (player1.name == "Admin")
             {
-                Console.WriteLine("You have access to test room. Please enter pin to enter the room: ");
-                string adminPin = Console.ReadLine();
-                if (adminPin == "1234")
+                if (player1.currentRoom.roomName != "Test Room")
                 {
-                    player1.SetCurrentRoom(Game.roomTest);
-                    Console.WriteLine("You have been moved to the test room");
+                    Console.WriteLine("You have access to test room. Please enter pin to enter the room: ");
+                    string adminPin = Console.ReadLine();
+                    if (adminPin == "1234")
+                    {
+                        player1.SetCurrentRoom(Game.roomTest);
+                        Console.WriteLine("You have been moved to the test room");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Incorrect pin. You can not enter this room");
+                    }
                 }
-                else
+
+                if (player1.currentRoom.roomName == "Test Room")
                 {
-                    Console.WriteLine("Incorrect pin. You can not enter this room");
+                    player1.SetCurrentRoom(Game.room1);
+                    Console.WriteLine("You have exited the test room and returned to the starting room");
                 }
-            }
-            else if (player1.name == "Admin" && player1.currentRoom.roomName == "Test Room")
-            {
-                player1.SetCurrentRoom(Game.room1);
-                Console.WriteLine("You have exited the test room and returned to your previous room");
             }
             else
             {
-                Console.WriteLine("You do not any available rooms to move to");
+                if (player1.GetInventory().Contains("metal key"))
+                {
+                    Room newRoom = new Room($"Room {Room.rooms.Count + 1}", "A new room containing a monster");
+                    player1.SetCurrentRoom(newRoom);
+                    Console.WriteLine("You have used your key to enter the door to the North");
+                }
+                else
+                {
+                    Console.WriteLine("You can not enter this room. You need to find a key");
+                }
+                
             }
         }
 
 
-        public void Start()
+
+        public static string ListRooms()
+        {
+
+            string roomList = "Available Rooms:\n";
+            foreach (var room in Room.rooms)
+            {
+                roomList += $"- {room.Key}: {room.Value.roomName}\n";
+            }
+
+            return roomList;
+        }
+            public void Start()
         {
             player1.SetCurrentRoom(room1);
             monster1 = new Monster();
@@ -106,7 +132,8 @@ namespace DungeonExplorer
                 Console.WriteLine("3. View character");
                 Console.WriteLine("4. Open Inventory");
                 Console.WriteLine("5. Battle monster");
-                Console.WriteLine("6. Quit game");
+                Console.WriteLine("6. View Map");
+                Console.WriteLine("7. Quit game");
                 string choiceStr = Console.ReadLine();
 
                 //Converts non integer values to -1 so that they will be handled by the default case
@@ -135,6 +162,9 @@ namespace DungeonExplorer
                         monster1.Battle(player1);
                         break;
                     case 6:
+                        Console.WriteLine(ListRooms());
+                        break;
+                    case 7:
                         playing = false;
                         break;
                     default:
