@@ -4,7 +4,7 @@ namespace DungeonExplorer
     {
         void Battle(Entity defender)
         {
-
+            Console.WriteLine($"{this.name} attacks {defender.name}");
         }
     }
 }

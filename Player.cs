@@ -7,9 +7,7 @@ namespace DungeonExplorer
 {
     public class Player : Entity
     {
-        private List<string> inventory = new List<string>();
-        public Room currentRoom;
-
+        
         public Player(string name)
         {
             this.name = name;
@@ -20,6 +18,8 @@ namespace DungeonExplorer
         public string GetInventory()
         {
             string inventoryContents = "Inventory:";
+            Dictionary<string, int> itemAmount = new Dictionary<string, int>();
+
             if (this.inventory.Count == 0)
             {
                 return "Inventory is empty.";
@@ -28,16 +28,32 @@ namespace DungeonExplorer
             {
                 foreach (string item in this.inventory)
                 {
-                    inventoryContents += $"\n - {item}";
+                    if (itemAmount.ContainsKey(item))
+                    {
+                        itemAmount[item]++;
+                    }
+                    else
+                    {
+                        itemAmount[item] = 1;
+                    }
+                }
+
+                foreach (var item in itemAmount)
+                {
+                    if (item.Value > 1)
+                    {
+                        inventoryContents += $"\n - {item.Key} x{item.Value}";
+                    }
+                    else
+                    {
+                        inventoryContents += $"\n - {item.Key}";
+                    }
                 }
             }
             return inventoryContents;
         }
         //Updates the room being accesessed by the game when the player moves to a new room
-        public void SetCurrentRoom(Room roomName)
-        {
-            this.currentRoom = roomName;
-        }
+        
         public string InspectRoom()
         {
             return this.currentRoom.GetDescription();
@@ -62,38 +78,42 @@ namespace DungeonExplorer
         }
         public void Battle(Entity defender)
         {
-            bool attackHit = false;
+            if (defender.health > 0)
+            {
+                bool attackHit = false;
 
-            if (random.Next(1, 20) > defender.defense)
-            {
-                attackHit = true;
-            }
-            else
-            {
-                attackHit = false;
-            }
+                if (random.Next(1, 20) > defender.defense)
+                {
+                    attackHit = true;
+                }
+                else
+                {
+                    attackHit = false;
+                }
 
-            if (attackHit)
-            {
-                Console.WriteLine($"{this.name} hit {defender.name}!");
-                defender.health -= this.attackPower;
-                Console.WriteLine($"{defender.name} took {this.attackPower} damage!");
-            }
-            else
-            {
-                Console.WriteLine($"{this.name}'s attack missed!");
-                return;
-            }
+                if (attackHit)
+                {
+                    Console.WriteLine($"{this.name} hit {defender.name}!");
+                    defender.health -= this.attackPower;
+                    Console.WriteLine($"{defender.name} took {this.attackPower} damage!");
+                }
+                else
+                {
+                    Console.WriteLine($"{this.name}'s attack missed!");
+                    return;
+                }
 
 
-            if (defender.health <= 0)
-            {
-                Console.WriteLine($"{defender.name}'s health has been depleted");
-                Console.WriteLine($"{defender.name} has been defeated!");
-            }
-            else
-            {
-                Console.WriteLine($"{defender.name}'s remaining health: {defender.health}");
+                if (defender.health <= 0)
+                {
+                    Console.WriteLine($"{defender.name}'s health has been depleted");
+                    Console.WriteLine($"{defender.name} has been defeated!");
+                    Monster.MonsterDrops(this, defender);
+                }
+                else
+                {
+                    Console.WriteLine($"{defender.name}'s remaining health: {defender.health}");
+                }
             }
         }
     }

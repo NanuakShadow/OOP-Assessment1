@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using DungeonExplorer;
+
+
 
 namespace DungeonExplorer
 {
     public class Monster : Entity
     {
+        public static List<Monster> monsters = new List<Monster>();
 
         public Monster()
         {
-            Console.WriteLine("A monster has appeared!");
+            this.name = $"Monster {monsters.Count}";
+            monsters.Add(this);
         }
+
         public void Battle(Entity defender)
         {
+
             if (this.health > 0)
             {
+                Console.WriteLine($"{this.name} attacks {defender.name}");
                 bool attackHit = false;
 
                 if (random.Next(1, 20) > defender.defense)
@@ -45,16 +54,24 @@ namespace DungeonExplorer
                 {
                     Console.WriteLine($"{defender.name}'s health has been depleted");
                     Console.WriteLine($"{defender.name} has been defeated!");
+                    
                 }
                 else
                 {
                     Console.WriteLine($"{defender.name}'s remaining health: {defender.health}");
                 }
             }
-            else
+        }
+        public static void MonsterDrops(Entity attacker, Entity defender)
+        {
+            
+            int lootRoll = random.Next(1, 100);
+            List<string> drops = LootTable.GenerateLoot(lootRoll);
+            foreach (string drop in drops)
             {
-                return;
+                Console.WriteLine($"{defender.name} has dropped {drop}");
             }
+            attacker.inventory.AddRange(drops);
         }
     }
 }

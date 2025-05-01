@@ -13,7 +13,6 @@ namespace DungeonExplorer
         private Player player1;
         private Monster monster1;
         public static Room room1;
-        public static Room roomTest;
         public Game()
         {
 
@@ -24,12 +23,10 @@ namespace DungeonExplorer
             Console.WriteLine("I will, however, not stop you. Just know that any problems are on you, not me");
             Console.WriteLine("Enter player name: ");
             player1 = new Player(Console.ReadLine());
-            room1 = new Room("Start", "This is the first room. " +
+            room1 = new Room("Room 1 (Start)", "This is the first room. " +
                 "It is empty, except for a wooden chest in a corner. There is a locked door to the north.");
 
-            // Test room initialized for admin testing
-            roomTest = new Room("Test Room", "A test room. Normally inaccessible to the player.");
-
+           
         }
         public static void InspectRoom(Player player1)
         {
@@ -63,46 +60,26 @@ namespace DungeonExplorer
 
         public static void MoveRoom(Player player1)
         {
-            if (player1.name == "Admin")
+            if (player1.GetInventory().Contains("metal key") || player1.name == "Admin")
             {
-                if (player1.currentRoom.roomName != "Test Room")
-                {
-                    Console.WriteLine("You have access to test room. Please enter pin to enter the room: ");
-                    string adminPin = Console.ReadLine();
-                    if (adminPin == "1234")
-                    {
-                        player1.SetCurrentRoom(Game.roomTest);
-                        Console.WriteLine("You have been moved to the test room");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Incorrect pin. You can not enter this room");
-                    }
-                }
-
-                if (player1.currentRoom.roomName == "Test Room")
-                {
-                    player1.SetCurrentRoom(Game.room1);
-                    Console.WriteLine("You have exited the test room and returned to the starting room");
-                }
+                Room newRoom = GenerateRoom();
+                player1.SetCurrentRoom(newRoom);
+                Console.WriteLine("You have used your key to enter the door to the new room");
             }
             else
             {
-                if (player1.GetInventory().Contains("metal key"))
-                {
-                    Room newRoom = new Room($"Room {Room.rooms.Count + 1}", "A new room containing a monster");
-                    player1.SetCurrentRoom(newRoom);
-                    Console.WriteLine("You have used your key to enter the door to the North");
-                }
-                else
-                {
-                    Console.WriteLine("You can not enter this room. You need to find a key");
-                }
-                
+                Console.WriteLine("You can not enter this room. You need to find a key");
             }
         }
 
+        public static Room GenerateRoom()
+        {
+            Room newRoom = new Room($"Room {Room.rooms.Count + 1}", "A new room containing a monster");
+            Monster newMonster = new Monster();
+            newMonster.SetCurrentRoom(newRoom);
+            return newRoom;
 
+        }
 
         public static string ListRooms()
         {
@@ -115,11 +92,22 @@ namespace DungeonExplorer
 
             return roomList;
         }
-            public void Start()
+
+        public static Monster LocateTarget(Player player)
+        {
+
+            foreach (var monster in Monster.monsters)
+            {
+                if (monster.currentRoom == player.currentRoom)
+                {
+                    return monster;
+                }
+            }
+            return null;
+        }
+        public void Start()
         {
             player1.SetCurrentRoom(room1);
-            monster1 = new Monster();
-            Console.WriteLine(monster1.GetData());
 
             bool playing = true;
             while (playing)
@@ -128,12 +116,13 @@ namespace DungeonExplorer
 
                 Console.WriteLine("Player options (enter one of the following numbers to carry out the assigned action): ");
                 Console.WriteLine("1. Inspect room");
-                Console.WriteLine("2. Move rooms");
+                Console.WriteLine("2. New room");
                 Console.WriteLine("3. View character");
                 Console.WriteLine("4. Open Inventory");
                 Console.WriteLine("5. Battle monster");
                 Console.WriteLine("6. View Map");
-                Console.WriteLine("7. Quit game");
+                Console.WriteLine("7. View all entities");
+                Console.WriteLine("8. Quit game");
                 string choiceStr = Console.ReadLine();
 
                 //Converts non integer values to -1 so that they will be handled by the default case
@@ -147,6 +136,7 @@ namespace DungeonExplorer
                 {
                     case 1:
                         Game.InspectRoom(player1);
+                        Console.WriteLine(player1.currentRoom.roomName);
                         break;
                     case 2:   
                         Game.MoveRoom(player1);
@@ -158,20 +148,54 @@ namespace DungeonExplorer
                         Console.WriteLine(player1.GetInventory());
                         break;
                     case 5:
-                        player1.Battle(monster1);
-                        monster1.Battle(player1);
-                        break;
+                        Monster targetMonster = Game.LocateTarget(player1);
+                        if (targetMonster == null)
+                        {
+                            Console.WriteLine("There are no monsters in this room.");
+                            break;
+                        }
+                        else
+                        {
+                            player1.Battle(targetMonster);
+                            break;
+                        }
                     case 6:
                         Console.WriteLine(ListRooms());
                         break;
                     case 7:
+                        foreach (var monster in Monster.monsters)
+                        {
+                            Console.WriteLine(monster.GetData());
+                            Console.WriteLine("\n");
+
+                        }
+                        break;
+                    case 8:
                         playing = false;
                         break;
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
                 }
-                
+
+
+                Monster targetPlayer = Game.LocateTarget(player1);
+                if (targetPlayer == null)
+                {
+                    Console.WriteLine("There are no monsters in this room.");
+                    
+                }
+                else
+                {
+                    targetPlayer.Battle(player1);
+                    
+                }
+                if (player1.health <= 0)
+                {
+                    Console.WriteLine("You have been defeated. Game over.");
+                    playing = false;
+                }
+
             }
         }
     }
