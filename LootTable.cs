@@ -15,8 +15,12 @@ namespace DungeonExplorer
             { 95, "Monster remains" },
             { 60, "Gold coin" },
             { 15, "Potion" },
+            { 1, "Armour" },
             { 2, "Weapon" },
             { 1, "Armor" }
+            { 35, "Potion" },
+            { 60, "Gold coin" },
+            { 95, "Monster remains" }
         };
 
         public static List<string> GenerateLoot(int lootRoll)

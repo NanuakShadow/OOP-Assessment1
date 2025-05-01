@@ -70,6 +70,16 @@ namespace DungeonExplorer
             foreach (string drop in drops)
             {
                 Console.WriteLine($"{defender.name} has dropped {drop}");
+                if (drop == "Weapon")
+                {
+                    attacker.attackPower += 1;
+                }
+                else if (drop == "Armour")
+                {
+                    attacker.maxHealth += 1;
+                }
+
+
             }
             attacker.inventory.AddRange(drops);
         }
