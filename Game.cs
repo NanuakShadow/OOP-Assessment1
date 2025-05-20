@@ -121,8 +121,9 @@ namespace DungeonExplorer
                 Console.WriteLine("4. Open Inventory");
                 Console.WriteLine("5. Battle monster");
                 Console.WriteLine("6. View Map");
-                Console.WriteLine("7. View all entities");
-                Console.WriteLine("8. Quit game");
+                Console.WriteLine("7. View all monsters");
+                Console.WriteLine("8. Use potion");
+                Console.WriteLine("9. Quit game");
                 string choiceStr = Console.ReadLine();
 
                 //Converts non integer values to -1 so that they will be handled by the default case
@@ -171,6 +172,9 @@ namespace DungeonExplorer
                         }
                         break;
                     case 8:
+                        player1.UsePotion();
+                        break;
+                    case 9:
                         playing = false;
                         break;
                     default:

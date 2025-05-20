@@ -7,18 +7,20 @@ namespace DungeonExplorer
 {
     public class Player : Entity
     {
-        
+        Dictionary<string, int> itemAmount = new Dictionary<string, int>();
+
         public Player(string name)
         {
             this.name = name;
-            this.health = random.Next(8, 10);
+            this.maxHealth = random.Next(8, 10);
+            this.health = this.maxHealth;
 
         }
 
         public string GetInventory()
         {
             string inventoryContents = "Inventory:";
-            Dictionary<string, int> itemAmount = new Dictionary<string, int>();
+            
 
             if (this.inventory.Count == 0)
             {
@@ -30,7 +32,7 @@ namespace DungeonExplorer
                 {
                     if (itemAmount.ContainsKey(item))
                     {
-                        itemAmount[item]++;
+                        itemAmount[item] += 1;
                     }
                     else
                     {
@@ -52,8 +54,28 @@ namespace DungeonExplorer
             }
             return inventoryContents;
         }
+
+        public void UsePotion()
+        {
+            if (this.inventory.Contains("Potion"))
+            {
+                this.health += 3;
+                if (this.health > this.maxHealth)
+                {
+                    this.health = this.maxHealth;
+                }
+                this.inventory.Remove("Potion");
+                Console.WriteLine("You used a potion and restored 3 health.");
+                Console.WriteLine($"Your current health is {this.health}.");
+            }
+            else
+            {
+                Console.WriteLine("You don't have any potions to use.");
+            }
+        }
+
         //Updates the room being accesessed by the game when the player moves to a new room
-        
+
         public string InspectRoom()
         {
             return this.currentRoom.GetDescription();

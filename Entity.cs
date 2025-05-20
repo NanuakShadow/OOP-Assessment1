@@ -10,6 +10,7 @@ namespace DungeonExplorer
     {
         public static Random random = new Random();
         public string name = "Default name";
+        public int maxHealth;
         public int health;
         public int defense;
         public int attackPower;
@@ -20,7 +21,8 @@ namespace DungeonExplorer
 
         public Entity()
         {
-            this.health = random.Next(1, 3);
+            this.maxHealth = random.Next(1, 4);
+            this.health = this.maxHealth;
             this.attackPower = random.Next(1, 3);
             this.defense = random.Next(12, 16);
 
