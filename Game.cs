@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Services;
 using System.Security.Cryptography.X509Certificates;
 
+
 namespace DungeonExplorer
 {
     internal class Game
     {
         private Player playerTest;
         private Player player1;
-        private Monster monster1;
         public static Room room1;
         public Game()
         {
@@ -33,25 +33,28 @@ namespace DungeonExplorer
             Console.WriteLine(player1.InspectRoom());
             // Check if the room contains a chest and provides the option to open it
             //(may not be entirely necessary with current data but is open to change in the second half of development)
-            if (player1.currentRoom.roomDescription.Contains("chest"))
+            if (player1.currentRoom.roomName == "Room 1 (Start)")
             {
-                Console.WriteLine("Do you want to open the chest?");
-                Console.WriteLine("Anything other than 'yes' will be deemed as a negative response");
-                string openChest = Console.ReadLine();
-                if (player1.currentRoom.roomDescription.Contains("The chest is now empty"))
+                if (player1.currentRoom.roomDescription.Contains("chest"))
                 {
-                    Console.WriteLine("You already emptied this chest. There is nothing else to see.");
-                }
-                else
-                {
-
-                    if (openChest == "yes")
+                    Console.WriteLine("Do you want to open the chest?");
+                    Console.WriteLine("Anything other than 'yes' will be deemed as a negative response");
+                    string openChest = Console.ReadLine();
+                    if (player1.currentRoom.roomDescription.Contains("The chest is now empty"))
                     {
-                        Console.WriteLine("The chest contains a small metal key");
-                        //Gives the player the option to pick up the item and ensures that the chest is empty if they do
-                        if (player1.PickUpItem("metal key"))
+                        Console.WriteLine("You already emptied this chest. There is nothing else to see.");
+                    }
+                    else
+                    {
+
+                        if (openChest == "yes")
                         {
-                            player1.currentRoom.roomDescription += "The chest is now empty.";
+                            Console.WriteLine("The chest contains a small metal key");
+                            //Gives the player the option to pick up the item and ensures that the chest is empty if they do
+                            if (player1.PickUpItem("metal key"))
+                            {
+                                player1.currentRoom.roomDescription += "The chest is now empty.";
+                            }
                         }
                     }
                 }
@@ -105,6 +108,12 @@ namespace DungeonExplorer
             }
             return null;
         }
+
+        public static void Padding()
+        {
+            Console.WriteLine("");
+        }
+
         public void Start()
         {
             player1.SetCurrentRoom(room1);
@@ -125,6 +134,7 @@ namespace DungeonExplorer
                 Console.WriteLine("8. Use potion");
                 Console.WriteLine("9. Quit game");
                 string choiceStr = Console.ReadLine();
+                Console.Clear();
 
                 //Converts non integer values to -1 so that they will be handled by the default case
                 bool choiceValid = int.TryParse(choiceStr, out int choiceInt);
@@ -167,8 +177,7 @@ namespace DungeonExplorer
                         foreach (var monster in Monster.monsters)
                         {
                             Console.WriteLine(monster.GetData());
-                            Console.WriteLine("\n");
-
+                            Console.WriteLine("");
                         }
                         break;
                     case 8:
@@ -181,6 +190,7 @@ namespace DungeonExplorer
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
                 }
+                Padding();
 
 
                 Monster targetPlayer = Game.LocateTarget(player1);
@@ -199,7 +209,7 @@ namespace DungeonExplorer
                     Console.WriteLine("You have been defeated. Game over.");
                     playing = false;
                 }
-
+                Padding();
             }
         }
     }

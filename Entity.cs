@@ -28,9 +28,8 @@ namespace DungeonExplorer
 
         }
         public string GetData()
-        {
-            
-            return $"Name: {this.name}\nHealth: {this.health}\nAttack: {this.attackPower}\nDefense: {this.defense}";
+        { 
+            return $"Name: {this.name}\nHealth: {(this.health <= 0 ? $"0 (Dead)" : $"{this.health}")}\nAttack: {this.attackPower}\nDefense: {this.defense}";
         }
         public void SetCurrentRoom(Room roomName)
         {
