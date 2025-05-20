@@ -125,6 +125,7 @@ namespace DungeonExplorer
                     return;
                 }
 
+                Game.Padding();
 
                 if (defender.health <= 0)
                 {

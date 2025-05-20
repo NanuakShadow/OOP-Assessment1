@@ -12,14 +12,10 @@ namespace DungeonExplorer
         public static Random random = new Random();
         public static Dictionary<int, string> lootTable = new Dictionary<int, string>()
         {
-            { 95, "Monster remains" },
-            { 60, "Gold coin" },
-            { 15, "Potion" },
             { 1, "Armour" },
             { 2, "Weapon" },
-            { 1, "Armor" }
-            { 35, "Potion" },
-            { 60, "Gold coin" },
+            { 55, "Potion" },
+            { 40, "Gold coin" },
             { 95, "Monster remains" }
         };
 
